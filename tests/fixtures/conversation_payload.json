@@ -1,0 +1,1314 @@
+{
+  "_note": "Sanitised fixture captured from a real M365 Copilot conversation. Structure, key names, enum values and timestamps are real; all message text, titles, GUIDs and location data are replaced.",
+  "container_path": "loaderData.chat-history.store.rawConversationResponse",
+  "threads_path": "loaderData.root.store.conversationPageHistoryList.chats",
+  "container": {
+    "messages": [
+      {
+        "text": "[redacted text len=214]",
+        "turnState": "Working",
+        "author": "user",
+        "from": {
+          "id": "9ed994c2-031a-1100-3b12-9d4014a49270"
+        },
+        "createdAt": "2026-03-03T09:52:14.5473247+00:00",
+        "timestamp": "2026-03-03T10:52:14.5464921+01:00",
+        "locale": "en-gb",
+        "market": "en-us",
+        "locationInfo": {
+          "country": "[redacted country len=11]",
+          "state": "[redacted state len=9]",
+          "city": "[redacted city len=6]",
+          "timeZone": "[redacted timeZone len=13]",
+          "timeZoneOffset": 1,
+          "sourceType": 1,
+          "isImplicitLocationIntent": false
+        },
+        "messageId": "98db8028-c65f-2c02-934b-fec8bc56560a",
+        "requestId": "98db8028-c65f-2c02-934b-fec8bc56560a",
+        "offense": "None",
+        "contentOrigin": "officedesktop",
+        "inputMethod": "Keyboard",
+        "turnCount": 1,
+        "storageMessageId": "1772531537096",
+        "entityAnnotationTypes": [
+          "People",
+          "File",
+          "Event",
+          "External",
+          "ExternalMessageExtension",
+          "Email",
+          "TeamsMessage"
+        ],
+        "clientPreferences": {}
+      },
+      {
+        "text": "[redacted text len=52]",
+        "isExpanded": false,
+        "isPersisted": false,
+        "addToChainOfThought": false,
+        "contentType": "SearchResults",
+        "author": "bot",
+        "createdAt": "2026-03-03T09:52:21.6809312+00:00",
+        "timestamp": "2026-03-03T09:52:21.6809312+00:00",
+        "messageId": "9466226b-b0e2-189f-fe10-d2c54b9c8faa",
+        "requestId": "98db8028-c65f-2c02-934b-fec8bc56560a",
+        "messageType": "Progress",
+        "offense": "None",
+        "toolResultPublishPreference": "Never",
+        "turnCount": 1,
+        "storageMessageId": "1772531542293"
+      },
+      {
+        "text": "[redacted text len=1435]",
+        "turnState": "Completed",
+        "author": "bot",
+        "responseIdentifier": "Default",
+        "createdAt": "2026-03-03T09:52:28.6728273+00:00",
+        "timestamp": "2026-03-03T09:52:28.6728273+00:00",
+        "messageId": "59961ba4-15b4-4506-72c3-8a9ab70568d6",
+        "requestId": "98db8028-c65f-2c02-934b-fec8bc56560a",
+        "offense": "None",
+        "adaptiveCards": [
+          {
+            "type": "AdaptiveCard",
+            "version": "1.0",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "[redacted text len=1435]",
+                "wrap": true
+              }
+            ]
+          }
+        ],
+        "sourceAttributions": [],
+        "references": {
+          "1-b49c87": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1487]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "2-499761": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1003]"
+            },
+            "isCitedInResponse": false
+          },
+          "3-a34a8f": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1030]"
+            },
+            "isCitedInResponse": false
+          },
+          "4-f0d0e6": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1326]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "5-7707ea": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1433]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "6-4a3707": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1040]"
+            },
+            "isCitedInResponse": false
+          },
+          "7-2f0085": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1036]"
+            },
+            "isCitedInResponse": false
+          },
+          "8-cccb69": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1016]"
+            },
+            "isCitedInResponse": false
+          },
+          "9-432840": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1428]"
+            },
+            "sensitivityLabel": {
+              "id": "72637b1d-cc74-4066-b59b-85b079144100",
+              "displayName": "[redacted len=31]",
+              "tooltip": "[redacted len=185]",
+              "priority": 5,
+              "color": "#FF8C00",
+              "isEncrypted": true
+            },
+            "isCitedInResponse": false
+          },
+          "10-c0fa59": {
+            "targetLink": "[redacted len=236]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1011]"
+            },
+            "isCitedInResponse": false
+          },
+          "11-6398ef": {
+            "targetLink": "[redacted len=140]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=941]"
+            },
+            "isCitedInResponse": false
+          },
+          "12-d0ab31": {
+            "targetLink": "[redacted len=140]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=927]"
+            },
+            "isCitedInResponse": false
+          },
+          "13-103db8": {
+            "targetLink": "[redacted len=164]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=951]"
+            },
+            "isCitedInResponse": false
+          },
+          "14-f0be79": {
+            "targetLink": "[redacted len=140]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=915]"
+            },
+            "isCitedInResponse": false
+          },
+          "15-09a455": {
+            "targetLink": "[redacted len=140]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=926]"
+            },
+            "isCitedInResponse": false
+          },
+          "16-0e11bf": {
+            "targetLink": "[redacted len=164]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=936]"
+            },
+            "isCitedInResponse": false
+          },
+          "17-e7b675": {
+            "targetLink": "[redacted len=186]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=937]"
+            },
+            "isCitedInResponse": false
+          },
+          "18-e30b5a": {
+            "targetLink": "[redacted len=186]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=903]"
+            },
+            "isCitedInResponse": false
+          },
+          "19-2f549b": {
+            "targetLink": "[redacted len=186]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=937]"
+            },
+            "isCitedInResponse": false
+          },
+          "20-a3a9a7": {
+            "targetLink": "[redacted len=140]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=948]"
+            },
+            "isCitedInResponse": false
+          },
+          "21-e82b95": {
+            "targetLink": "[redacted len=252]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=2130]"
+            },
+            "sensitivityLabel": {
+              "id": "72637b1d-cc74-4066-b59b-85b079144100",
+              "displayName": "[redacted len=31]",
+              "tooltip": "[redacted len=185]",
+              "priority": 5,
+              "color": "#FF8C00",
+              "isEncrypted": true
+            },
+            "isCitedInResponse": false
+          },
+          "22-98f52d": {
+            "targetLink": "[redacted len=285]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=2221]"
+            },
+            "sensitivityLabel": {
+              "id": "72637b1d-cc74-4066-b59b-85b079144100",
+              "displayName": "[redacted len=31]",
+              "tooltip": "[redacted len=185]",
+              "priority": 5,
+              "color": "#FF8C00",
+              "isEncrypted": true
+            },
+            "isCitedInResponse": false
+          },
+          "23-cf9917": {
+            "targetLink": "[redacted len=285]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=2217]"
+            },
+            "sensitivityLabel": {
+              "id": "72637b1d-cc74-4066-b59b-85b079144100",
+              "displayName": "[redacted len=31]",
+              "tooltip": "[redacted len=185]",
+              "priority": 5,
+              "color": "#FF8C00",
+              "isEncrypted": true
+            },
+            "isCitedInResponse": false
+          },
+          "24-8e4466": {
+            "targetLink": "[redacted len=270]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=2240]"
+            },
+            "sensitivityLabel": {
+              "id": "40db01e9-2b1d-8fd9-0e33-fdc3819024c8",
+              "displayName": "[redacted len=37]",
+              "tooltip": "[redacted len=230]",
+              "priority": 4,
+              "color": "#FF8C00",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "25-58fd1c": {
+            "targetLink": "[redacted len=249]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1736]"
+            },
+            "sensitivityLabel": {
+              "id": "72637b1d-cc74-4066-b59b-85b079144100",
+              "displayName": "[redacted len=31]",
+              "tooltip": "[redacted len=185]",
+              "priority": 5,
+              "color": "#FF8C00",
+              "isEncrypted": true
+            },
+            "isCitedInResponse": false
+          },
+          "26-bd1b43": {
+            "targetLink": "[redacted len=252]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=2217]"
+            },
+            "sensitivityLabel": {
+              "id": "40db01e9-2b1d-8fd9-0e33-fdc3819024c8",
+              "displayName": "[redacted len=37]",
+              "tooltip": "[redacted len=230]",
+              "priority": 4,
+              "color": "#FF8C00",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "27-4ec668": {
+            "targetLink": "[redacted len=519]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=2394]"
+            },
+            "sensitivityLabel": {
+              "id": "72637b1d-cc74-4066-b59b-85b079144100",
+              "displayName": "[redacted len=31]",
+              "tooltip": "[redacted len=185]",
+              "priority": 5,
+              "color": "#FF8C00",
+              "isEncrypted": true
+            },
+            "isCitedInResponse": false
+          },
+          "28-6c4cba": {
+            "targetLink": "[redacted len=423]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1455]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "29-2491d8": {
+            "targetLink": "[redacted len=519]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=2365]"
+            },
+            "sensitivityLabel": {
+              "id": "72637b1d-cc74-4066-b59b-85b079144100",
+              "displayName": "[redacted len=31]",
+              "tooltip": "[redacted len=185]",
+              "priority": 5,
+              "color": "#FF8C00",
+              "isEncrypted": true
+            },
+            "isCitedInResponse": false
+          },
+          "30-f1d005": {
+            "targetLink": "[redacted len=519]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=2369]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "31-1a0070": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=919]"
+            },
+            "isCitedInResponse": false
+          },
+          "32-f26e83": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=929]"
+            },
+            "isCitedInResponse": false
+          },
+          "33-0d06fd": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=950]"
+            },
+            "isCitedInResponse": false
+          },
+          "34-8d2fc3": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=917]"
+            },
+            "isCitedInResponse": false
+          },
+          "35-ccc586": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=914]"
+            },
+            "isCitedInResponse": false
+          },
+          "36-af4750": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=946]"
+            },
+            "isCitedInResponse": false
+          },
+          "37-c34aac": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1249]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "38-c64f22": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=931]"
+            },
+            "isCitedInResponse": false
+          },
+          "39-73a95c": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=882]"
+            },
+            "isCitedInResponse": false
+          },
+          "40-012fed": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=936]"
+            },
+            "isCitedInResponse": false
+          },
+          "41-f0e08b": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=920]"
+            },
+            "isCitedInResponse": false
+          },
+          "42-2ead35": {
+            "targetLink": "[redacted len=226]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1162]"
+            },
+            "isCitedInResponse": false
+          },
+          "43-3e7b50": {
+            "targetLink": "[redacted len=226]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1144]"
+            },
+            "isCitedInResponse": false
+          },
+          "44-d923e1": {
+            "targetLink": "[redacted len=226]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1162]"
+            },
+            "isCitedInResponse": false
+          },
+          "45-105296": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=920]"
+            },
+            "isCitedInResponse": false
+          },
+          "46-ba8d83": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=892]"
+            },
+            "isCitedInResponse": false
+          },
+          "47-706310": {
+            "targetLink": "[redacted len=226]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1115]"
+            },
+            "isCitedInResponse": false
+          },
+          "48-cd76a9": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1232]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "49-8bfcd6": {
+            "targetLink": "[redacted len=226]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1162]"
+            },
+            "isCitedInResponse": false
+          },
+          "50-cb01d5": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=925]"
+            },
+            "isCitedInResponse": false
+          },
+          "51-0953a2": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1236]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "52-cc8529": {
+            "targetLink": "[redacted len=226]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1456]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "53-664f2e": {
+            "targetLink": "[redacted len=226]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1456]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "54-093dbd": {
+            "targetLink": "[redacted len=226]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1456]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          },
+          "55-ed2394": {
+            "targetLink": "[redacted len=208]",
+            "displayData": {
+              "type": "text/json",
+              "renderType": "CITATION",
+              "content": "[redacted content len=1242]"
+            },
+            "sensitivityLabel": {
+              "id": "1b284b74-36c0-967c-b8f8-1f18c52e9855",
+              "displayName": "General",
+              "tooltip": "[redacted len=149]",
+              "priority": 2,
+              "color": "#0078D7",
+              "isEncrypted": false
+            },
+            "isCitedInResponse": false
+          }
+        },
+        "contentOrigin": "DeepLeo",
+        "turnCount": 1,
+        "sensitivityLabel": {
+          "id": "72637b1d-cc74-4066-b59b-85b079144100",
+          "displayName": "[redacted len=31]",
+          "tooltip": "[redacted len=185]",
+          "priority": 5,
+          "color": "#FF8C00",
+          "isEncrypted": true
+        },
+        "storageMessageId": "1772531556358",
+        "splitChildStorageMessageId": "1772531561001"
+      }
+    ],
+    "syncState": "eyJJQzNTeW5jU3RhdGUiOiIzZTM5MDAwMDAwMzEzOTNhNjQ0MjY4Njc2MzQzNDU2YzZjNDI2YjMxNzA3NDM3NDk0Zjc5NmE0NjM2NTA0ODQyNTM2NTcyNDM3ODcxNGIzNjcwNmM0NTU1NTA1NDRiMzE2NzM4NmYzMTQwNzQ2ODcyNjU2MTY0MmU3NjMyMDEwMDAwMDAwMDAwMDAwMDAwMjkzMjFkYjM5YzAxMDAwMCJ9",
+    "asyncMediaDistributionObjectsBaseUrl": "[redacted asyncMediaDistributionObjectsBaseUrl len=55]",
+    "chatName": "[redacted chatName len=46]",
+    "createTimeUtc": 1772531534547,
+    "updateTimeUtc": 1772531548672,
+    "reconnectToken": "[redacted reconnectToken len=13]",
+    "plugins": [
+      {
+        "id": "BingWebSearch",
+        "source": "BuiltIn",
+        "isThirdPartyPluginSource": false,
+        "isGraphConnectorPluginType": false
+      }
+    ],
+    "threadLevelGptId": {},
+    "tone": "Magic",
+    "turnState": "Completed",
+    "conversationId": "74186070-2125-9419-35a6-dec83b28c5e8",
+    "requestId": "710988aa-aa4a-6cc4-d1fd-f0944720693c",
+    "telemetry": {
+      "startTime": "2026-08-19T08:59:19.8614395Z"
+    },
+    "conversationSensitivityLabel": {
+      "id": "72637b1d-cc74-4066-b59b-85b079144100",
+      "displayName": "[redacted len=31]",
+      "tooltip": "[redacted len=185]",
+      "priority": 5,
+      "color": "#FF8C00",
+      "isEncrypted": true
+    },
+    "result": {
+      "value": "Success",
+      "serviceVersion": "1.0.03517.48365"
+    }
+  },
+  "threads": [
+    {
+      "conversationId": "f3096f29-fe38-472d-8e48-673d7214aa9f",
+      "chatName": "[redacted chatName len=29]",
+      "tone": "Magic",
+      "createTimeUtc": 1780810509491,
+      "updateTimeUtc": 1787112489391,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "isMessageless": false,
+      "isUnread": true,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": true,
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "2d02e3d8-0f50-103f-2e27-d81b9cbd7376",
+      "chatName": "[redacted chatName len=28]",
+      "tone": "Magic",
+      "createTimeUtc": 1787067578092,
+      "updateTimeUtc": 1787067623902,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "3af56655-3704-1459-6688-395bdba349dd",
+      "chatName": "[redacted chatName len=36]",
+      "tone": "Magic",
+      "createTimeUtc": 1785338928860,
+      "updateTimeUtc": 1787066933361,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "isMessageless": false,
+      "isUnread": true,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": true,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "ddf2b7e9-0c66-1820-d566-f7ec857dfdf1",
+      "chatName": "[redacted chatName len=33]",
+      "tone": "Magic",
+      "createTimeUtc": 1787047076735,
+      "updateTimeUtc": 1787049416381,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "09cbaa94-8f2d-8fcf-402e-a00d8d56569a",
+      "chatName": "[redacted chatName len=33]",
+      "tone": "Magic",
+      "createTimeUtc": 1787038861168,
+      "updateTimeUtc": 1787039012377,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "copilotReferenceId": "[redacted len=64]",
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "818e5e04-7915-ef5c-46a3-22d650de5503",
+      "chatName": "[redacted chatName len=29]",
+      "tone": "Chat",
+      "createTimeUtc": 1786994185771,
+      "updateTimeUtc": 1786994200016,
+      "expiryTimeUtc": 0,
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "ab1343a2-cce2-be58-9166-c9d684a0cde8",
+      "chatName": "[redacted chatName len=43]",
+      "tone": "Magic",
+      "createTimeUtc": 1786973518285,
+      "updateTimeUtc": 1786973587278,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "9b173c5a-adaf-9aa7-5bf7-4bd3cd14210f",
+      "chatName": "[redacted chatName len=34]",
+      "tone": "Claude_Opus",
+      "createTimeUtc": 1786972901190,
+      "updateTimeUtc": 1786973262536,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "a2a2f769-f8fe-7bbc-c7e7-badd1f231c8b",
+      "chatName": "[redacted chatName len=37]",
+      "tone": "Magic",
+      "createTimeUtc": 1786972782817,
+      "updateTimeUtc": 1786972826172,
+      "expiryTimeUtc": 0,
+      "threadLevelGptId": {
+        "id": "[redacted len=55]",
+        "source": "MOS3"
+      },
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [
+        "[redacted len=55]"
+      ],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=117]"
+    },
+    {
+      "conversationId": "67e0c487-2da6-db35-ed97-1bb32130fa77",
+      "chatName": "[redacted chatName len=35]",
+      "tone": "Magic",
+      "createTimeUtc": 1786972547278,
+      "updateTimeUtc": 1786972586680,
+      "expiryTimeUtc": 0,
+      "threadLevelGptId": {
+        "id": "[redacted len=55]",
+        "source": "MOS3"
+      },
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [
+        "[redacted len=55]"
+      ],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=117]"
+    },
+    {
+      "conversationId": "3a783a48-c51d-86f7-38fd-d73c26f81014",
+      "chatName": "[redacted chatName len=35]",
+      "tone": "Magic",
+      "createTimeUtc": 1786972399457,
+      "updateTimeUtc": 1786972434979,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "4df757ac-5481-ca75-bb03-ff5009d53a27",
+      "chatName": "[redacted chatName len=34]",
+      "tone": "Magic",
+      "createTimeUtc": 1786971393425,
+      "updateTimeUtc": 1786971426744,
+      "expiryTimeUtc": 0,
+      "threadLevelGptId": {
+        "id": "[redacted len=55]",
+        "source": "MOS3"
+      },
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [
+        "[redacted len=55]"
+      ],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=117]"
+    },
+    {
+      "conversationId": "5672b8dd-caa9-6d72-1960-257423ba7108",
+      "chatName": "[redacted chatName len=35]",
+      "tone": "Magic",
+      "createTimeUtc": 1786943606577,
+      "updateTimeUtc": 1786944575922,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "b8d9423d-4dd4-f2f4-36e4-98bc381733cc",
+      "chatName": "[redacted chatName len=50]",
+      "tone": "Claude_Opus",
+      "createTimeUtc": 1786889828748,
+      "updateTimeUtc": 1786890140677,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "f43f70e4-73dc-5858-c9ff-65c61eba6123",
+      "chatName": "[redacted chatName len=50]",
+      "tone": "Claude_Opus",
+      "createTimeUtc": 1786885342092,
+      "updateTimeUtc": 1786887768616,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "54e1147e-3cae-9d12-bac7-b46a264535c3",
+      "chatName": "[redacted chatName len=50]",
+      "tone": "Magic",
+      "createTimeUtc": 1786885134401,
+      "updateTimeUtc": 1786885180375,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "sideBySide": {
+        "connectedConversationId": "48e63885-4d17-a373-cd74-cebf05a6084b",
+        "isSelected": true,
+        "requestId": "5e67ac00-f091-e06a-db28-94804cd5b2e7",
+        "showOrderIndex": 1
+      },
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "2ccd8284-aa48-ecf3-8a44-2948e3727d22",
+      "chatName": "[redacted chatName len=31]",
+      "tone": "Magic",
+      "createTimeUtc": 1786873243245,
+      "updateTimeUtc": 1786873290063,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "c1cc88fc-186c-2db2-cd34-fbf297462b85",
+      "chatName": "[redacted chatName len=33]",
+      "tone": "Magic",
+      "createTimeUtc": 1785519738991,
+      "updateTimeUtc": 1785522898576,
+      "expiryTimeUtc": 0,
+      "plugins": [
+        {
+          "id": "BingWebSearch",
+          "source": "BuiltIn",
+          "isThirdPartyPluginSource": false,
+          "isGraphConnectorPluginType": false
+        }
+      ],
+      "threadLevelGptId": {},
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=55]"
+    },
+    {
+      "conversationId": "6aeb7fa5-f64d-fab6-7970-7cabca873827",
+      "chatName": "[redacted chatName len=38]",
+      "tone": "Magic",
+      "createTimeUtc": 1786622496030,
+      "updateTimeUtc": 1786622559017,
+      "expiryTimeUtc": 0,
+      "threadLevelGptId": {
+        "id": "[redacted len=55]",
+        "source": "MOS3"
+      },
+      "isMessageless": false,
+      "isUnread": false,
+      "retentionPolicyEffect": 0,
+      "threadId": "[redacted len=57]",
+      "isScheduledPromptThread": false,
+      "mostRecentGptIds": [
+        "[redacted len=55]"
+      ],
+      "hasLoopPages": false,
+      "isLegacyWebChat": false,
+      "hasCopilotTasks": false,
+      "turnState": "Completed",
+      "path": "[redacted path len=117]"
+    }
+  ]
+}

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt Spider</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e6e9ef; --dim:#9aa3b2; --accent:#6aa4ff; --accent2:#7ee2b8;
+    --warn:#f0b429; --warn-strong:#f0b429; --bad:#ff6b6b;
+    --accent2-strong:#7ee2b8;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f6f7f9; --panel:#fff; --panel2:#f0f2f5; --line:#dfe3ea;
+           --txt:#1b1f27; --dim:#5b6472; --accent:#2563eb; --accent2:#0f9d69;
+           --accent2-strong:#086b49; --warn-strong:#805600; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+       font:14px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif}
+  header{position:sticky;top:0;z-index:10;background:var(--panel);
+         border-bottom:1px solid var(--line);padding:12px 20px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .row+.row{margin-top:8px}
+  h1{font-size:17px;margin:0 14px 0 0;font-weight:650}
+  h1 span{color:var(--accent)}
+  input,select,button{font:inherit;color:var(--txt);background:var(--panel2);
+    border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  input[type=search]{flex:1;min-width:240px}
+  button{cursor:pointer}
+  button:hover{border-color:var(--accent)}
+  button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  label.lbl{color:var(--dim);font-size:12px;text-transform:uppercase;
+            letter-spacing:.04em;margin-right:2px}
+  .muted{color:var(--dim);font-size:12.5px}
+
+  /* Filter chips. Multi-select: every chip toggles independently, and the
+     count shows what selecting it would yield under the other filters. */
+  .chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .chip{font-size:12.5px;padding:4px 10px;border-radius:20px;cursor:pointer;
+        border:1px solid var(--line);background:var(--panel2);color:var(--dim);
+        user-select:none;white-space:nowrap}
+  .chip:hover{border-color:var(--accent)}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .chip .n{opacity:.65;margin-left:5px;font-variant-numeric:tabular-nums}
+  .chip .n:empty{margin-left:0}
+  .chip.zero{color:var(--dim)}
+  .chip.clear{border-style:dashed}
+
+  main{padding:18px 20px;max-width:1200px;margin:0 auto}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .card b{display:block;font-size:22px;font-weight:650}
+  .card span{color:var(--dim);font-size:12px}
+
+  .ghead{display:flex;align-items:baseline;gap:10px;margin:20px 0 8px;
+         padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .ghead:first-child{margin-top:0}
+  .ghead b{font-size:14px}
+  .ghead .n{color:var(--dim);font-size:12.5px}
+
+  .item{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+        padding:13px 15px;margin-bottom:10px}
+  .item h3{margin:0 0 4px;font-size:14.5px;font-weight:600}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+  .tag{font-size:11px;padding:2px 7px;border-radius:20px;border:1px solid var(--line);
+       background:var(--panel2);color:var(--dim)}
+  .tag.src{color:var(--accent);border-color:var(--accent)}
+  .tag.agent{color:var(--accent2-strong);border-color:var(--accent2)}
+  .tag.approx{color:var(--warn-strong);border-color:var(--warn)}
+  .tag.org{color:var(--dim);border-color:var(--dim);font-style:italic}
+  .tag.cost{color:var(--accent2-strong);border-color:var(--accent2)}
+  .tag.cost-warn{color:var(--warn-strong);border-color:var(--warn)}
+  .spacer{flex:1}
+  .mini{font-size:12px;padding:3px 9px;border-radius:7px}
+  .mini.done{color:var(--accent2);border-color:var(--accent2)}
+
+  /* Prompts are shown in full. The old fixed-height scroll box made every
+     Copilot CLI prompt (avg ~860 chars) look truncated even though the whole
+     text was stored. Long ones collapse behind an explicit control instead,
+     so nothing is hidden without saying so. */
+  .prompt{white-space:pre-wrap;word-break:break-word;background:var(--panel2);
+          border-radius:8px;padding:10px 12px;position:relative}
+  .prompt.clip{max-height:220px;overflow:hidden}
+  .prompt.clip::after{content:"";position:absolute;left:0;right:0;bottom:0;height:56px;
+    background:linear-gradient(transparent,var(--panel2));pointer-events:none}
+  .prompt mark{background:rgba(240,180,41,.35);color:inherit;border-radius:2px}
+  .expand{margin-top:6px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  details.resp{margin-top:8px}
+  details.resp summary{cursor:pointer;color:var(--dim);font-size:12.5px}
+  details.resp .rbody{white-space:pre-wrap;margin-top:6px;color:var(--dim);font-size:13px;
+                      max-height:320px;overflow:auto}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  th{color:var(--dim);font-weight:600}
+  .ok{color:var(--accent2)} .bad{color:var(--bad)} .warnc{color:var(--warn)}
+  #more{width:100%;margin-top:6px}
+  .hidden{display:none}
+  .skip-link{position:absolute;left:8px;top:-50px;background:var(--panel);padding:8px 12px;
+    border:1px solid var(--line);border-radius:8px;z-index:20}
+  .skip-link:focus{top:8px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+  .cost-card{overflow:auto}
+  .cost-card h3,.cost-page h2{margin:0 0 8px}
+  .cost-page{display:grid;gap:14px}
+  .cost-page.hidden{display:none}
+  .cost-metrics{grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+  .cost-metrics .card{min-width:0;overflow-wrap:anywhere}
+  .cost-metrics .metric-value{font-size:clamp(18px,1.8vw,24px);font-variant-numeric:tabular-nums}
+  .metric-value summary{cursor:pointer;list-style:none}
+  .metric-value summary::-webkit-details-marker{display:none}
+  .metric-exact{display:block;font-size:12px;font-weight:400;color:var(--dim);margin-top:5px}
+  .section-controls{display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin:8px 0}
+  .section-controls label{display:grid;gap:3px;color:var(--dim);font-size:12px}
+  .section-controls input,.section-controls select{max-width:180px;padding:5px 8px}
+  .section-count{margin:4px 0;color:var(--dim);font-size:12px}
+  .cost-page .load-cost-more{width:100%;margin-top:6px}
+  #costPromptMore:disabled{opacity:.6;cursor:wait}
+  .cost-page .cost-card{min-width:0}
+  .cost-filters{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+  .cost-filters label{display:grid;gap:4px;color:var(--dim);font-size:12px}
+  .cost-status{padding:10px 12px;border:1px solid var(--line);border-radius:8px}
+  .cost-status.warnc{border-color:var(--warn)}
+  .cost-status.bad{border-color:var(--bad)}
+  table caption{text-align:left;font-weight:600;color:var(--txt);padding:4px 8px}
+  .skip-link:focus{position:fixed}
+  #toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+    background:var(--accent);color:#fff;padding:9px 18px;border-radius:8px;
+    font-size:13px;opacity:0;pointer-events:none;transition:opacity .18s;z-index:50}
+  #toast.show{opacity:1}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<header>
+  <div class="row">
+    <h1>Prompt <span>Spider</span></h1>
+    <input class="search-only" type="search" id="q" placeholder="Search prompts…  (blank = browse all)" autofocus>
+    <button id="go" class="primary search-only">Search</button>
+    <button id="copyAll" class="search-only" title="Copy every prompt currently loaded, newline-separated">Copy all</button>
+    <button class="search-only" data-x="json">JSON</button>
+    <button class="search-only" data-x="csv">CSV</button>
+    <button class="search-only" data-x="md">MD</button>
+    <button id="toggleStats" class="search-only">Corpus</button>
+    <button id="showSearch" aria-pressed="true">Prompts</button>
+    <button id="showCosts" aria-pressed="false">Costs</button>
+  </div>
+
+  <div class="row" id="search-options">
+    <label class="lbl" for="sort">Sort</label>
+    <select id="sort">
+      <option value="relevance">Relevance</option>
+      <option value="recent">Newest first</option>
+      <option value="oldest">Oldest first</option>
+      <option value="longest">Longest prompt</option>
+      <option value="shortest">Shortest prompt</option>
+      <option value="title">Title A–Z</option>
+      <option value="cost">Highest recorded usage</option></select>
+
+    <label class="lbl" for="minCredits">Minimum credits</label>
+    <input id="minCredits" type="number" min="0" step="any" placeholder="Known amounts only">
+
+    <label class="lbl" for="group">Group by</label>
+    <select id="group">
+      <option value="">No grouping</option>
+      <option value="session">Conversation</option>
+      <option value="day">Day</option>
+      <option value="source">Source</option>
+      <option value="context">Project / folder</option>
+      <option value="origin">Origin</option></select>
+
+    <label class="lbl" for="agent">Agent</label>
+    <select id="agent"><option value="">Any</option>
+      <option value="only">Agent chats only</option>
+      <option value="none">Plain chats only</option></select>
+
+    <label class="lbl" for="frm">From</label>
+    <input type="date" id="frm">
+    <label class="lbl" for="to">To</label>
+    <input type="date" id="to">
+  </div>
+
+  <div class="row" id="source-filters">
+    <label class="lbl">Source</label>
+    <div class="chips" id="srcChips"></div>
+  </div>
+  <div class="row" id="origin-filters">
+    <label class="lbl">Origin</label>
+    <div class="chips" id="orgChips"></div>
+  </div>
+
+  <div class="muted" id="summary" style="margin-top:8px">Loading…</div>
+</header>
+
+<main id="content" tabindex="-1">
+  <section id="stats" class="hidden">
+    <div class="cards" id="cards"></div>
+    <div class="muted" id="origins" style="margin:-6px 0 14px"></div>
+    <div class="card">
+      <b style="font-size:14px">Harvest runs</b>
+      <span>Watch the enumerated column: a sudden drop means the UI changed.</span>
+      <table id="runs"><thead><tr><th>Started</th><th>Mode</th><th>Status</th>
+        <th>Enum</th><th>Visited</th><th>New</th><th>Empty</th><th>Error</th></tr></thead>
+        <tbody></tbody></table>
+    </div>
+  </section>
+  <section id="results" aria-label="Prompt results"></section>
+  <button id="more" class="hidden">Load more</button>
+  <section id="costs" class="cost-page hidden" aria-labelledby="costHeading">
+    <div>
+      <h2 id="costHeading">Costs</h2>
+      <p class="muted">Local usage values may include discounts. They are not your invoice.
+        Unsupported or missing activity is shown separately.</p>
+    </div>
+    <div class="cost-filters">
+      <label for="costFrom">From (UTC, inclusive)<input id="costFrom" type="date"></label>
+      <label for="costTo">To (UTC, exclusive)<input id="costTo" type="date"></label>
+      <label for="costSource">Source<select id="costSource"><option value="">All supported sources</option></select></label>
+      <label for="costModel">Model<select id="costModel"><option value="">All models</option></select></label>
+      <button id="refreshCosts" class="primary">Update costs</button>
+      <a id="usageExport" href="/api/costs/export.csv">Download usage-only CSV</a>
+    </div>
+    <p id="costNotice" class="cost-status muted" role="status" aria-live="polite">Loading cost coverage…</p>
+    <div id="costCards" class="cards cost-metrics"></div>
+    <div class="cost-grid">
+      <div class="card cost-card"><h3>Usage by day (UTC)</h3>
+        <div class="section-controls" data-cost-controls="day">
+          <label for="costDayFilter">Filter days<input id="costDayFilter" type="search" placeholder="Search day"></label>
+          <label for="costDaySort">Sort by<select id="costDaySort"><option value="name">Day</option><option value="credits">Credits</option><option value="calls">Calls</option></select></label>
+          <label for="costDayDirection">Direction<select id="costDayDirection"><option value="desc">Descending</option><option value="asc">Ascending</option></select></label>
+          <button type="button" class="cost-reset" data-cost-reset="day">Clear</button>
+        </div>
+        <p id="costDayCount" class="section-count" aria-live="polite"></p>
+        <table id="costByDay">
+        <caption>Recorded usage totals by day</caption><thead><tr><th scope="col">Day</th>
+        <th scope="col">Credits</th><th scope="col">Calls</th></tr></thead><tbody></tbody></table>
+        <button type="button" id="costDayMore" class="load-cost-more hidden">Load more days</button></div>
+      <div class="card cost-card"><h3>Usage by model</h3>
+        <div class="section-controls" data-cost-controls="model">
+          <label for="costModelFilter">Filter models<input id="costModelFilter" type="search" placeholder="Search models"></label>
+          <label for="costModelSort">Sort by<select id="costModelSort"><option value="name">Model</option><option value="credits">Credits</option><option value="calls">Calls</option></select></label>
+          <label for="costModelDirection">Direction<select id="costModelDirection"><option value="desc">Descending</option><option value="asc">Ascending</option></select></label>
+          <button type="button" class="cost-reset" data-cost-reset="model">Clear</button>
+        </div>
+        <p id="costModelCount" class="section-count" aria-live="polite"></p>
+        <table id="costByModel">
+        <caption>Recorded usage totals by model</caption><thead><tr><th scope="col">Model</th>
+        <th scope="col">Credits</th><th scope="col">Calls</th></tr></thead><tbody></tbody></table>
+        <button type="button" id="costModelMore" class="load-cost-more hidden">Load more models</button></div>
+      <div class="card cost-card"><h3>Usage by source</h3>
+        <div class="section-controls" data-cost-controls="source">
+          <label for="costSourceFilter">Filter sources<input id="costSourceFilter" type="search" placeholder="Search sources"></label>
+          <label for="costSourceSort">Sort by<select id="costSourceSort"><option value="name">Source</option><option value="credits">Credits</option><option value="calls">Calls</option></select></label>
+          <label for="costSourceDirection">Direction<select id="costSourceDirection"><option value="desc">Descending</option><option value="asc">Ascending</option></select></label>
+          <button type="button" class="cost-reset" data-cost-reset="source">Clear</button>
+        </div>
+        <p id="costSourceCount" class="section-count" aria-live="polite"></p>
+        <table id="costBySource">
+        <caption>Recorded usage totals by source</caption><thead><tr><th scope="col">Source</th>
+        <th scope="col">Credits</th><th scope="col">Calls</th></tr></thead><tbody></tbody></table>
+        <button type="button" id="costSourceMore" class="load-cost-more hidden">Load more sources</button></div>
+    </div>
+    <div class="card cost-card"><h3>Supported prompts with known usage</h3>
+      <div class="section-controls" data-cost-controls="prompts">
+        <label for="costPromptFilter">Filter prompts<input id="costPromptFilter" type="search" placeholder="Search prompt title or text"></label>
+        <label for="costPromptSort">Sort by<select id="costPromptSort">
+          <option value="credits">Credits</option><option value="calls">Calls</option>
+          <option value="title">Prompt</option><option value="date">Date</option><option value="source">Source</option></select></label>
+        <label for="costPromptDirection">Direction<select id="costPromptDirection">
+          <option value="desc">Descending</option><option value="asc">Ascending</option></select></label>
+        <button type="button" class="cost-reset" data-cost-reset="prompts">Clear</button>
+      </div>
+      <p id="costPromptCount" class="section-count" aria-live="polite"></p>
+      <table id="topCosts" aria-busy="false" aria-describedby="costPromptCount">
+        <caption>Highest known local usage first</caption>
+        <thead><tr><th scope="col">Prompt</th><th scope="col">Source</th>
+        <th scope="col">Credits</th><th scope="col">Calls</th>
+        <th scope="col">Status</th><th scope="col">Details</th></tr></thead><tbody></tbody></table>
+      <button type="button" id="costPromptMore" class="load-cost-more hidden">Load more prompts</button>
+    </div>
+    <div id="costDetails" class="card hidden" aria-live="polite"></div>
+  </section>
+</main>
+<div id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+
+const SOURCES = [
+  ['m365-copilot','M365 Copilot'], ['cowork','Cowork'], ['scout','Microsoft Scout'],
+  ['copilot-cli','Copilot CLI'], ['copilot-app','Copilot app'],
+  ['github-copilot','GitHub Copilot'], ['vscode','VS Code'],
+];
+const ORIGINS = [
+  ['human','Human'], ['automation','Automation'],
+  ['heartbeat','Heartbeat'], ['system','System / injected'],
+];
+
+// Multi-select. Empty source set = every source, which is the natural reading
+// of "no filter applied" and avoids a state where nothing can match.
+const sel = { sources: new Set(), origins: new Set(['human']) };
+
+// Raw prompt text, keyed by row id. Kept out of the DOM so Copy always yields
+// exactly what was harvested — not the escaped, highlighted, collapsed
+// rendering of it.
+const raw = new Map();
+let offset = 0, lastGroup = null, loadedIds = [], currentTotal = 0;
+
+const params = () => {
+  const p = new URLSearchParams({
+    q: $('#q').value, agent: $('#agent').value, sort: $('#sort').value,
+    frm: $('#frm').value, to: $('#to').value, group: $('#group').value,
+  });
+  if($('#minCredits').value) p.set('min_credits', $('#minCredits').value);
+  if (sel.sources.size) p.set('source', [...sel.sources].join(','));
+  p.set('origin', sel.origins.size ? [...sel.origins].join(',') : 'any');
+  return p;
+};
+
+const esc = s => (s||'').replace(/[&<>"]/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rxEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// Highlight the query inside the FULL prompt. The server's FTS snippet caps at
+// 24 tokens, which is why long prompts looked cut off during a search. Every
+// slice is escaped separately, so the marked-up result is still safe.
+function highlight(text, query){
+  const terms = (query||'').trim().split(/\s+/).filter(t => t.length > 1).map(rxEsc);
+  if(!terms.length) return esc(text);
+  const rx = new RegExp('(' + terms.join('|') + ')', 'gi');
+  let out = '', last = 0, m;
+  while((m = rx.exec(text)) !== null){
+    out += esc(text.slice(last, m.index)) + '<mark>' + esc(m[0]) + '</mark>';
+    last = m.index + m[0].length;
+    if(m.index === rx.lastIndex) rx.lastIndex++;
+  }
+  return out + esc(text.slice(last));
+}
+
+function toast(msg){
+  const t = $('#toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove('show'), 1400);
+}
+
+async function copyText(text, btn, label){
+  try{
+    await navigator.clipboard.writeText(text);
+  }catch(e){
+    // Clipboard API needs a secure context. 127.0.0.1 qualifies, but fall back
+    // rather than fail silently if the page is ever served another way.
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); }catch(_){ toast('Copy failed'); return; }
+    document.body.removeChild(ta);
+  }
+  if(btn){
+    const old = btn.textContent;
+    btn.textContent = 'Copied'; btn.classList.add('done');
+    setTimeout(() => { btn.textContent = old; btn.classList.remove('done'); }, 1200);
+  }
+  if(label) toast(label);
+}
+
+// Chips are built once and then updated in place. Rebuilding the row whenever
+// facet counts arrived made the whole filter bar blink, and briefly emptied it
+// — so a click landing at the wrong moment hit nothing.
+function chipRow(el, opts, set, counts){
+  if(!el.children.length){
+    const mk = (val, text) => {
+      const c = document.createElement('span');
+      c.className = 'chip' + (val === null ? ' clear' : '');
+      c.dataset.v = val === null ? '' : val;
+      c.innerHTML = `<span class="t">${esc(text)}</span><span class="n"></span>`;
+      c.onclick = () => {
+        if(val === null) set.clear();
+        else if(set.has(val)) set.delete(val);
+        else set.add(val);
+        chipRow(el, opts, set, counts);
+        run(false);
+      };
+      el.appendChild(c);
+    };
+    mk(null, 'All');
+    opts.forEach(([v, t]) => mk(v, t));
+  }
+  [...el.children].forEach(c => {
+    const v = c.dataset.v;
+    const on = v === '' ? set.size === 0 : set.has(v);
+    c.classList.toggle('on', on);
+    if(counts && v !== ''){
+      const n = counts[v] || 0;
+      c.querySelector('.n').textContent = n.toLocaleString();
+      c.classList.toggle('zero', n === 0 && !on);
+    }
+  });
+}
+
+function card(r){
+  const el = document.createElement('div');
+  el.className = 'item';
+  raw.set(r.id, r.prompt || '');
+  // The only honest signal is whether a real source timestamp exists. Keying
+  // this off provenance hid the warning on 123 incrementally-harvested rows
+  // that were just as dateless as the backfilled ones.
+  const approx = !r.ts_source
+    ? '<span class="tag approx" title="The Copilot UI exposes no timestamp for this prompt, so this is when Prompt Spider first saw it — not when you wrote it">harvested date</span>'
+    : '';
+  const org = (r.origin && r.origin !== 'human')
+    ? `<span class="tag org">${esc(r.origin)}</span>` : '';
+  const when = (r.ts_source || r.first_seen_at || '').replace('T',' ').slice(0,16);
+  const chars = (r.prompt || '').length;
+  el.innerHTML = `
+    <h3>${esc(r.title) || '<em>(untitled)</em>'}</h3>
+    <div class="meta">
+      <span class="tag src">${esc(r.source)}</span>
+      ${r.app_context ? `<span class="tag">${esc(r.app_context).slice(0,44)}</span>` : ''}
+      ${r.agent_id ? '<span class="tag agent">agent</span>' : ''}
+      ${org}${approx}
+      ${r.local_credits == null
+        ? '<span class="tag cost-warn">No cost data</span>'
+        : `<span class="tag cost">${esc(r.local_credits)} credits · $${esc(r.local_usd_equivalent)}</span>
+           <span class="tag ${r.cost_status === 'recorded' ? 'cost' : 'cost-warn'}">${esc(r.cost_status)}</span>`}
+      <span class="muted" title="${r.ts_source ? 'When you wrote this prompt' : 'When Prompt Spider first saw this prompt'}">${when}</span>
+      <span class="muted">${chars.toLocaleString()} chars</span>
+      ${r.deep_link ? `<a href="${esc(r.deep_link)}" target="_blank" rel="noopener">open ↗</a>` : ''}
+      <span class="spacer"></span>
+      <button class="mini copy" title="Copy the prompt text, ready to paste">Copy</button>
+    </div>
+    <div class="prompt">${highlight(r.prompt || '', $('#q').value)}</div>
+    ${r.response_excerpt ? `<details class="resp"><summary>Response excerpt</summary>
+       <div class="rbody">${esc(r.response_excerpt)}</div>
+       <button class="mini copyresp" style="margin-top:6px">Copy response</button></details>` : ''}`;
+
+  el.querySelector('.copy').onclick = e =>
+    copyText(raw.get(r.id), e.target, 'Prompt copied');
+  const cr = el.querySelector('.copyresp');
+  if(cr) cr.onclick = e => copyText(r.response_excerpt || '', e.target, 'Response copied');
+
+  // Collapse only what actually overflows, so short prompts get no chrome.
+  const body = el.querySelector('.prompt');
+  requestAnimationFrame(() => {
+    if(body.scrollHeight > 240){
+      body.classList.add('clip');
+      const b = document.createElement('button');
+      b.className = 'mini expand';
+      b.textContent = `Show all ${chars.toLocaleString()} characters`;
+      b.onclick = () => {
+        const clipped = body.classList.toggle('clip');
+        b.textContent = clipped ? `Show all ${chars.toLocaleString()} characters` : 'Show less';
+      };
+      body.insertAdjacentElement('afterend', b);
+    }
+  });
+  return el;
+}
+
+const GROUP_LABEL = {
+  session:'Conversation', day:'Day', source:'Source',
+  context:'Project / folder', origin:'Origin',
+};
+
+function groupHeader(key, mode, counts){
+  const h = document.createElement('div');
+  h.className = 'ghead';
+  h.dataset.k = key == null ? '' : String(key);
+  const n = counts && counts[key] != null ? counts[key] : null;
+  const shown = key === null || key === '' ? '(none)' : key;
+  h.innerHTML = `<b>${esc(String(shown)).slice(0,90)}</b>
+    <span class="n">${GROUP_LABEL[mode]||mode}${n!=null?` · ${n.toLocaleString()} prompt${n===1?'':'s'}`:''}</span>`;
+  return h;
+}
+
+let facetCache = {};
+// Guards against interleaved runs. Changing two filters quickly fires two
+// overlapping fetches; without a token the slower one lands last and paints
+// results for a filter that is no longer selected.
+let runToken = 0;
+
+async function run(append){
+  const token = ++runToken;
+  if(!append){ offset = 0; lastGroup = null; loadedIds = []; $('#results').innerHTML = ''; }
+  const p = params(); p.set('limit', 50); p.set('offset', offset);
+  const mode = $('#group').value;
+  $('#summary').textContent = 'Searching…';
+
+  // Facets are fetched alongside, NOT awaited: they only decorate the chips and
+  // group headers with counts. Blocking the results on them made every filter
+  // change feel like a stall for as long as the slower of the two calls.
+  if(!append){
+    fetch('/api/facets?' + params()).then(x => x.json()).then(f => {
+      if(token !== runToken) return;
+      facetCache = f || {};
+      chipRow($('#srcChips'), SOURCES, sel.sources, facetCache.by_source);
+      chipRow($('#orgChips'), ORIGINS, sel.origins, facetCache.by_origin);
+      document.querySelectorAll('.ghead').forEach(h => {
+        const k = h.dataset.k, n = facetCache.by_group && facetCache.by_group[k];
+        if(n != null) h.querySelector('.n').textContent =
+          `${GROUP_LABEL[mode]||mode} · ${n.toLocaleString()} prompt${n===1?'':'s'}`;
+      });
+    }).catch(() => {});
+  }
+
+  const r = await fetch('/api/search?' + p).then(x => x.json());
+  if(token !== runToken) return;          // a newer run superseded this one
+
+  const frag = document.createDocumentFragment();
+  currentTotal = r.total;
+  r.results.forEach(x => {
+    if(mode && x.grp !== lastGroup){
+      frag.appendChild(groupHeader(x.grp, mode, facetCache.by_group));
+      lastGroup = x.grp;
+    }
+    loadedIds.push(x.id);
+    frag.appendChild(card(x));
+  });
+  $('#results').appendChild(frag);
+  if(!r.total) $('#results').innerHTML = '<p class="muted">No matches.</p>';
+  // The server decides the next offset. Grouping by conversation pages whole
+  // conversations, so the row count on a page is not the step size.
+  offset = r.next_offset != null ? r.next_offset : offset + r.count;
+  const unit = r.unit || 'prompts';
+  const shownAll = mode === 'session' ? offset : Math.min(offset, r.total);
+
+  const filters = [];
+  if(sel.sources.size) filters.push(`${sel.sources.size} source${sel.sources.size===1?'':'s'}`);
+  if(sel.origins.size) filters.push([...sel.origins].join(' + '));
+  $('#summary').innerHTML =
+    `${r.total.toLocaleString()} matching ${unit} — showing ${shownAll.toLocaleString()}`
+    + (filters.length ? ` <span class="muted">· ${esc(filters.join(' · '))}</span>` : '')
+    + (mode === 'session' ? ' <span class="muted">· whole conversations, turns in the order written</span>' : '');
+  $('#more').textContent = `Load more ${unit}`;
+  $('#more').classList.toggle('hidden', offset >= r.total);
+}
+
+async function stats(){
+  const s = await fetch('/api/stats').then(x => x.json());
+  const pct = s.state.discovered ? Math.round(100*(s.state.discovered-s.state.pending)/s.state.discovered) : 0;
+  const srcRows = Object.entries(s.by_source).sort((a,b)=>b[1]-a[1])
+    .map(([k,v]) => `<div class="card"><b>${v.toLocaleString()}</b><span>${esc(k)}</span></div>`).join('');
+  const orgRows = Object.entries(s.by_origin).sort((a,b)=>b[1]-a[1])
+    .map(([k,v]) => `${esc(k)}: <b>${v.toLocaleString()}</b>`).join(' &nbsp;·&nbsp; ');
+  $('#cards').innerHTML = `
+    <div class="card"><b>${s.human.toLocaleString()}</b><span>human prompts</span></div>
+    <div class="card"><b>${s.prompts.toLocaleString()}</b><span>total captured</span></div>
+    <div class="card"><b>${s.sessions.toLocaleString()}</b><span>conversations / tasks</span></div>
+    <div class="card"><b>${s.state.pending.toLocaleString()}</b><span>awaiting extraction</span></div>
+    <div class="card"><b>${pct}%</b><span>browser backfill</span></div>
+    ${srcRows}`;
+  $('#origins').innerHTML = `By origin — ${orgRows}`;
+  $('#runs tbody').innerHTML = s.runs.map(r => {
+    const cls = r.status === 'ok' ? 'ok' : (r.status === 'lock_held' ? 'warnc' : 'bad');
+    return `<tr><td>${(r.started_at||'').replace('T',' ').slice(0,16)}</td>
+      <td>${esc(r.mode||'')}</td><td class="${cls}">${esc(r.status||'')}</td>
+      <td>${r.enumerated??''}</td><td>${r.visited??''}</td><td>${r.items_new??''}</td>
+      <td>${r.empty_ratio==null?'':Math.round(r.empty_ratio*100)+'%'}</td>
+      <td class="muted">${esc(r.error||'')}</td></tr>`;
+  }).join('');
+}
+
+function showCostView(show){
+  $('#costs').classList.toggle('hidden', !show);
+  $('#results').classList.toggle('hidden', show);
+  $('#more').classList.toggle('hidden', show || offset >= currentTotal);
+  $('#stats').classList.add('hidden');
+  $('#summary').classList.toggle('hidden', show);
+  ['search-options','source-filters','origin-filters'].forEach(id =>
+    $('#'+id).classList.toggle('hidden', show));
+  document.querySelectorAll('.search-only').forEach(el =>
+    el.classList.toggle('hidden', show));
+  $('#showSearch').setAttribute('aria-pressed', String(!show));
+  $('#showCosts').setAttribute('aria-pressed', String(show));
+  if(show) loadCosts();
+}
+
+function costParams(){
+  const p = new URLSearchParams();
+  if($('#costFrom').value) p.set('from', $('#costFrom').value);
+  if($('#costTo').value) p.set('to', $('#costTo').value);
+  if($('#costSource').value) p.set('source', $('#costSource').value);
+  if($('#costModel').value) p.set('model', $('#costModel').value);
+  return p;
+}
+
+const COST_PAGE_SIZE = 50;
+const costSections = {
+  day:{group:'day', table:'costByDay', filter:'costDayFilter', sort:'costDaySort',
+    direction:'costDayDirection', count:'costDayCount', more:'costDayMore', label:'days'},
+  model:{group:'model', table:'costByModel', filter:'costModelFilter', sort:'costModelSort',
+    direction:'costModelDirection', count:'costModelCount', more:'costModelMore', label:'models'},
+  source:{group:'source', table:'costBySource', filter:'costSourceFilter', sort:'costSourceSort',
+    direction:'costSourceDirection', count:'costSourceCount', more:'costSourceMore', label:'sources'},
+};
+const costSectionState = Object.fromEntries(
+  Object.keys(costSections).map(key => [key,{offset:0,total:0,request:0}]));
+const promptCostState = {offset:0,total:0,request:0};
+
+function groupedInteger(text){
+  return String(text).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function exactScaled(value, places){
+  const text = String(value);
+  if(!/^\d+$/.test(text)) return null;
+  const padded = text.padStart(places + 1, '0');
+  const whole = groupedInteger(padded.slice(0, -places));
+  const fraction = padded.slice(-places).replace(/0+$/, '');
+  return fraction ? `${whole}.${fraction}` : whole;
+}
+
+function roundedScaled(value, places){
+  const text = String(value);
+  if(!/^\d+$/.test(text)) return null;
+  const padded = text.padStart(places + 1, '0');
+  const whole = BigInt(padded.slice(0, -places));
+  const fraction = padded.slice(-places);
+  const cents = BigInt(fraction.slice(0, 2).padEnd(2, '0'));
+  const roundedMinor = whole * 100n + cents + (fraction[2] >= '5' ? 1n : 0n);
+  const displayWhole = groupedInteger((roundedMinor / 100n).toString());
+  const displayFraction = (roundedMinor % 100n).toString().padStart(2, '0').replace(/0+$/, '');
+  return displayFraction ? `${displayWhole}.${displayFraction}` : displayWhole;
+}
+
+function amountMarkup(nano, places, unit, prefix=''){
+  const exact = exactScaled(nano, places);
+  const rounded = roundedScaled(nano, places);
+  if(exact == null || rounded == null) return 'Unknown';
+  return `<details class="metric-value"><summary aria-label="${esc(prefix+rounded+' '+unit+
+    '. Expand for exact value')}">${esc(prefix+rounded)}</summary>
+    <span class="metric-exact">Exact: ${esc(prefix+exact)} ${esc(unit)}</span></details>`;
+}
+
+function updateSelect(id, names, firstLabel){
+  const select = $('#'+id), current = select.value;
+  const unique = [...new Set(names)].filter(Boolean);
+  select.innerHTML = `<option value="">${esc(firstLabel)}</option>` +
+    unique.map(name => `<option value="${esc(name)}">${esc(name)}</option>`).join('');
+  if(unique.includes(current)) select.value = current;
+}
+
+function sectionQuery(name, offset){
+  const section = costSections[name];
+  const query = costParams();
+  query.set('group', section.group);
+  query.set('q', $('#'+section.filter).value.trim());
+  query.set('sort', $('#'+section.sort).value);
+  query.set('direction', $('#'+section.direction).value);
+  query.set('limit', COST_PAGE_SIZE);
+  query.set('offset', offset);
+  return query;
+}
+
+function renderCostBreakdown(name, rows, append){
+  const section = costSections[name], state = costSectionState[name];
+  const body = $('#'+section.table+' tbody');
+  const sortLabel = $('#'+section.sort).selectedOptions[0].textContent;
+  const directionLabel = $('#'+section.direction).selectedOptions[0].textContent.toLowerCase();
+  $('#'+section.table+' caption').textContent =
+    `Usage by ${sortLabel.toLowerCase()}, ${directionLabel}`;
+  if(!append) body.innerHTML = '';
+  body.insertAdjacentHTML('beforeend', rows.map(r =>
+    `<tr><th scope="row">${esc(r.name)}</th><td>${r.nano_credits == null
+      ? 'Unknown' : amountMarkup(r.nano_credits,9,'credits')}</td>
+      <td>${r.calls.toLocaleString()}</td></tr>`
+  ).join(''));
+  if(!state.total && !state.offset)
+    body.innerHTML = '<tr><td colspan="3" class="muted">No matching usage groups.</td></tr>';
+  $('#'+section.count).textContent =
+    `Showing ${state.offset.toLocaleString()} of ${state.total.toLocaleString()} matching ${section.label}.`;
+  $('#'+section.more).classList.toggle('hidden', state.offset >= state.total);
+}
+
+async function loadCostSection(name, append=false){
+  const section = costSections[name], state = costSectionState[name];
+  const request = ++state.request;
+  const offset = append ? state.offset : 0;
+  try{
+    const response = await fetch('/api/costs/breakdown?'+sectionQuery(name,offset));
+    if(!response.ok) throw new Error('Usage breakdown could not be loaded.');
+    const data = await response.json();
+    if(request !== state.request) return;
+    state.total = data.total;
+    state.offset = data.next_offset;
+    renderCostBreakdown(name,data.results,append);
+  }catch(error){
+    if(request !== state.request) return;
+    $('#'+section.table+' tbody').innerHTML =
+      `<tr><td colspan="3" class="bad">${esc(error.message || 'Usage breakdown could not be loaded.')}</td></tr>`;
+    $('#'+section.count).textContent = 'Usage rows are unavailable.';
+    $('#'+section.more).classList.add('hidden');
+  }
+}
+
+function promptCostQuery(offset){
+  const query = costParams();
+  query.set('q',$('#costPromptFilter').value.trim());
+  query.set('sort',$('#costPromptSort').value);
+  query.set('direction',$('#costPromptDirection').value);
+  query.set('limit',COST_PAGE_SIZE);
+  query.set('offset',offset);
+  return query;
+}
+
+function renderPromptCosts(rows,append){
+  const body = $('#topCosts tbody');
+  const sortLabel = $('#costPromptSort').selectedOptions[0].textContent;
+  const directionLabel = $('#costPromptDirection').selectedOptions[0].textContent.toLowerCase();
+  $('#topCosts caption').textContent = `Sorted by ${sortLabel.toLowerCase()}, ${directionLabel}`;
+  if(!append) body.innerHTML = '';
+  body.insertAdjacentHTML('beforeend',rows.map(r =>
+    `<tr><th scope="row">${esc(r.title || '(untitled)')}</th>
+      <td>${esc(r.source)}</td><td>${amountMarkup(r.known_nano,9,'credits')}</td>
+      <td>${r.cost_calls.toLocaleString()}</td><td>${esc(r.cost_status)}</td>
+      <td><button class="mini cost-detail" data-id="${esc(r.id)}">View calls</button></td></tr>`
+  ).join(''));
+  if(!promptCostState.total && !promptCostState.offset)
+    body.innerHTML = '<tr><td colspan="6" class="muted">No matching supported prompts have a known amount.</td></tr>';
+  $('#costPromptCount').textContent =
+    `Showing ${promptCostState.offset.toLocaleString()} of ${promptCostState.total.toLocaleString()} matching prompts.`;
+  $('#costPromptMore').classList.toggle('hidden',
+    promptCostState.offset >= promptCostState.total);
+  body.querySelectorAll('.cost-detail').forEach(button =>
+    button.addEventListener('click', () => showCostDetails(button.dataset.id)));
+}
+
+async function loadPromptCosts(append=false){
+  const request = ++promptCostState.request;
+  const offset = append ? promptCostState.offset : 0;
+  const table = $('#topCosts');
+  table.setAttribute('aria-busy','true');
+  $('#costPromptMore').disabled = true;
+  $('#costPromptCount').textContent =
+    append ? 'Loading more matching prompts…' : 'Updating prompt results…';
+  if(!append){
+    const sortLabel = $('#costPromptSort').selectedOptions[0].textContent.toLowerCase();
+    const directionLabel = $('#costPromptDirection').selectedOptions[0].textContent.toLowerCase();
+    $('#topCosts caption').textContent = `Updating order by ${sortLabel}, ${directionLabel}…`;
+    $('#costPromptMore').classList.add('hidden');
+    $('#topCosts tbody').innerHTML =
+      '<tr><td colspan="6" class="muted">Loading matching prompts…</td></tr>';
+  }
+  try{
+    const response = await fetch('/api/costs/top?'+promptCostQuery(offset));
+    if(!response.ok) throw new Error('Prompt usage could not be loaded.');
+    const data = await response.json();
+    if(request !== promptCostState.request) return;
+    promptCostState.total = data.total;
+    promptCostState.offset = data.next_offset;
+    renderPromptCosts(data.results,append);
+    table.setAttribute('aria-busy','false');
+    $('#costPromptMore').disabled = false;
+  }catch(error){
+    if(request !== promptCostState.request) return;
+    $('#topCosts tbody').innerHTML =
+      `<tr><td colspan="6" class="bad">${esc(error.message || 'Prompt usage could not be loaded.')}</td></tr>`;
+    $('#costPromptCount').textContent = 'Prompt rows are unavailable.';
+    $('#costPromptMore').classList.add('hidden');
+    table.setAttribute('aria-busy','false');
+    $('#costPromptMore').disabled = false;
+  }
+}
+
+async function loadCosts(){
+  const query = costParams();
+  const suffix = query.toString() ? '?'+query.toString() : '';
+  $('#costNotice').textContent = 'Loading local usage…';
+  $('#costNotice').className = 'cost-status muted';
+  $('#usageExport').href = '/api/costs/export.csv' +
+    (query.toString() ? '?'+query.toString() : '');
+  try{
+    const response = await fetch('/api/costs/summary'+suffix);
+    if(!response.ok) throw new Error('Cost summary could not be loaded.');
+    const summary = await response.json();
+    updateSelect('costSource',summary.by_source.map(x => x.name),'All supported sources');
+    updateSelect('costModel',summary.by_model.map(x => x.name),'All models');
+    const coverage = summary.coverage;
+    $('#costCards').innerHTML = `
+      <div class="card"><b>${summary.nano_credits == null ? 'Unknown' : amountMarkup(summary.nano_credits,9,'credits')}</b>
+        <span>known credits · locally recorded, not an invoice amount</span></div>
+      <div class="card"><b>${summary.nano_credits == null ? 'Unknown' : amountMarkup(summary.nano_credits,11,'USD','$')}</b>
+        <span>USD equivalent at $0.01 per credit</span></div>
+      <div class="card"><b>${summary.linked_nano_credits == null ? 'Unknown' : amountMarkup(summary.linked_nano_credits,9,'credits')}</b>
+        <span>linked credits · direct and verified helper calls</span></div>
+      <div class="card"><b>${summary.unlinked_nano_credits == null ? 'Unknown' : amountMarkup(summary.unlinked_nano_credits,9,'credits')}</b>
+        <span>unlinked credits · not assigned to a prompt</span></div>
+      <div class="card"><b>${coverage.prompts_with_known_cost.toLocaleString()} / ${coverage.denominator.toLocaleString()}</b>
+        <span>supported prompts with known cost / local-source prompts</span></div>
+      <div class="card"><b>${summary.missing_amount_calls.toLocaleString()}</b>
+        <span>calls with no recorded amount</span></div>`;
+    const warnings = summary.source_freshness.filter(s => s.status !== 'ok');
+    const notice = warnings.map(s =>
+      `${s.source}: ${s.status}${s.warning_count ? ` (${s.warning_count} source warnings)` : ''}`
+    );
+    if(summary.calls === 0 && !summary.source_freshness.length)
+      notice.push('No local usage has been imported yet. Run the local harvest to read supported files.');
+    const callCount = (count,label) =>
+      `${count.toLocaleString()} ${label}${count === 1 ? '' : 's'}`;
+    notice.push(`Excluded from prompt totals: ` +
+      `${callCount(summary.unlinked_calls,'unlinked call')} and ` +
+      `${callCount(summary.missing_amount_calls,'call without a recorded amount')}.`);
+    $('#costNotice').textContent = notice.join(' ');
+    $('#costNotice').className = 'cost-status' + (warnings.length ? ' warnc' : '');
+    await Promise.all([
+      ...Object.keys(costSections).map(name => loadCostSection(name)),
+      loadPromptCosts()
+    ]);
+  }catch(error){
+    $('#costNotice').textContent = error.message || 'Cost data could not be loaded.';
+    $('#costNotice').className = 'cost-status bad';
+  }
+}
+
+async function showCostDetails(promptId){
+  const box = $('#costDetails');
+  box.classList.remove('hidden');
+  box.innerHTML = '<p class="muted">Loading call details…</p>';
+  try{
+    const response = await fetch('/api/costs/prompt/'+encodeURIComponent(promptId));
+    if(!response.ok) throw new Error('Call details could not be loaded.');
+    const data = await response.json();
+    box.innerHTML = `<h3>${esc(data.prompt.title || 'Prompt usage details')}</h3>
+      <p class="muted">${data.local_credits == null ? 'Unknown' : amountMarkup(
+        decimalToScaled(data.local_credits,9),9,'credits')} ·
+        ${data.local_usd_equivalent == null ? 'Unknown USD equivalent' : amountMarkup(
+          decimalToScaled(data.local_usd_equivalent,11),11,'USD','$')}
+        · ${esc(data.cost_status)} · not an invoice amount</p>
+      <p class="muted">${data.coverage.direct_calls} direct calls, ${data.coverage.helper_calls} linked helper calls,
+        ${data.coverage.missing_amount_calls} calls without amounts.</p>
+      <table><caption>Recorded calls</caption><thead><tr><th scope="col">When (UTC)</th>
+        <th scope="col">Model</th><th scope="col">Kind</th><th scope="col">Credits</th>
+        <th scope="col">Status and link</th><th scope="col">Recorded rates</th></tr></thead><tbody>
+        ${data.calls.map(call => `<tr><td>${esc(call.event_at || 'Unknown')}</td>
+          <td>${esc(call.model || 'Unknown')}</td><td>${esc(call.call_kind)}</td>
+          <td>${call.total_nano_aiu == null ? 'Unknown' : amountMarkup(call.total_nano_aiu,9,'credits')}</td>
+          <td>${esc(call.status)} · ${esc(call.link_status)}${call.link_reason ? ` (${esc(call.link_reason)})` : ''}</td>
+          <td>${call.recorded_rates == null ? 'Not supplied' : `<details><summary>View recorded rates</summary><pre>${esc(JSON.stringify(call.recorded_rates))}</pre></details>`}</td></tr>`
+        ).join('')}</tbody></table>
+      <p class="muted">${data.source_freshness.map(s =>
+        `${esc(s.source)}: ${esc(s.status)}; last read ${esc(s.last_success_at || 'unknown')}`
+      ).join(' · ')}</p>`;
+  }catch(error){
+    box.textContent = error.message || 'Call details could not be loaded.';
+  }
+}
+
+function decimalToScaled(value, places){
+  if(value == null) return null;
+  const text = String(value);
+  if(!/^\d+(?:\.\d+)?$/.test(text)) return null;
+  const [whole,fraction=''] = text.split('.');
+  if(fraction.length > places) return null;
+  return (whole + fraction.padEnd(places,'0')).replace(/^0+(?=\d)/,'');
+}
+
+$('#go').onclick = () => run(false);
+$('#q').addEventListener('keydown', e => { if(e.key === 'Enter') run(false); });
+['agent','sort','frm','to','group','minCredits'].forEach(id =>
+  $('#'+id).addEventListener('change', () => run(false)));
+$('#more').onclick = () => run(true);
+$('#toggleStats').onclick = () => { $('#stats').classList.toggle('hidden'); stats(); };
+$('#showSearch').onclick = () => showCostView(false);
+$('#showCosts').onclick = () => showCostView(true);
+$('#refreshCosts').onclick = loadCosts;
+['costFrom','costTo','costSource','costModel'].forEach(id =>
+  $('#'+id).addEventListener('change', loadCosts));
+let costFilterTimer;
+for(const name of Object.keys(costSections)){
+  const section = costSections[name];
+  $('#'+section.filter).addEventListener('input', () => {
+    clearTimeout(costFilterTimer);
+    costFilterTimer = setTimeout(() => loadCostSection(name),180);
+  });
+  [section.sort,section.direction].forEach(id =>
+    $('#'+id).addEventListener('change',() => loadCostSection(name)));
+  $('#'+section.more).addEventListener('click',() => loadCostSection(name,true));
+  document.querySelector(`[data-cost-reset="${name}"]`).addEventListener('click',() => {
+    $('#'+section.filter).value = '';
+    $('#'+section.sort).value = 'name';
+    $('#'+section.direction).value = 'desc';
+    loadCostSection(name);
+  });
+}
+$('#costPromptFilter').addEventListener('input',() => {
+  clearTimeout(costFilterTimer);
+  costFilterTimer = setTimeout(() => loadPromptCosts(),180);
+});
+['costPromptSort','costPromptDirection'].forEach(id =>
+  $('#'+id).addEventListener('change',() => loadPromptCosts()));
+$('#costPromptMore').addEventListener('click',() => loadPromptCosts(true));
+document.querySelector('[data-cost-reset="prompts"]').addEventListener('click',() => {
+  $('#costPromptFilter').value = '';
+  $('#costPromptSort').value = 'credits';
+  $('#costPromptDirection').value = 'desc';
+  loadPromptCosts();
+});
+$('#copyAll').onclick = e => {
+  const text = loadedIds.map(id => raw.get(id) || '').filter(Boolean).join('\n\n---\n\n');
+  if(!text) return toast('Nothing loaded to copy');
+  copyText(text, e.target, `${loadedIds.length} prompts copied`);
+};
+document.querySelectorAll('[data-x]').forEach(b => b.onclick = () => {
+  const p = params(); p.set('fmt', b.dataset.x);
+  window.location = '/api/export?' + p;
+});
+
+chipRow($('#srcChips'), SOURCES, sel.sources, null);
+chipRow($('#orgChips'), ORIGINS, sel.origins, null);
+run(false); stats();
+</script>
+</body>
+</html>

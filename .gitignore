@@ -1,0 +1,26 @@
+# Harvested data — NEVER commit. Contains customer and MIP-labelled prompt
+# content. The database lives outside this folder by design, but guard anyway.
+*.db
+*.db-shm
+*.db-wal
+prompts.db*
+
+# Run logs may quote prompt text
+*.log
+discover.log
+
+# Local scratch
+_*.py
+*.png
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini

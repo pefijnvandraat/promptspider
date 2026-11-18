@@ -12,6 +12,42 @@ Local, searchable archive of the prompts you write across **seven AI surfaces**:
 | `github-copilot` | GitHub Copilot web + desktop app | Authenticated DOM |
 | `vscode` | GitHub Copilot Chat in VS Code | Local JSON / JSONL |
 
+## Install on Windows
+
+1. Double-click **PromptSpider-Setup.exe** from your approved software source
+   and follow the setup wizard. You don't need admin rights or a separate
+   Python installation. If your work laptop blocks setup, contact IT.
+2. Open **Prompt Spider** from the Start menu. Select **Sign in to Microsoft
+   365 Copilot**, sign in with your work account in Microsoft Edge, and close
+   the Edge window once you can see your chats.
+3. Select **Import Copilot chats**. Keep Edge open while the app imports recent
+   chats, then select **Open Search**. Keep Prompt Spider open while you search.
+
+The Windows app also has an **Import history from this laptop** button for
+supported local AI history. Imports are on demand and don't run on a schedule.
+The Copilot button imports recent Microsoft 365 Copilot web chats only; it
+doesn't import Cowork or chats from inside Word, Excel, Outlook, or Teams.
+
+Check your organization's data policy before importing work chats. Prompt Spider
+saves imported text and a dedicated Edge sign-in profile on this laptop in
+`%LOCALAPPDATA%\PromptSpider`. You can uninstall from **Settings > Apps >
+Installed apps**. Uninstall keeps this folder so you don't lose your history;
+to remove the history and sign-in profile too, delete the folder after
+uninstalling.
+
+### Build the installer
+
+On an x64 Windows build machine with 64-bit Python 3.12 and Inno Setup 6, run:
+
+```powershell
+.\windows\build.ps1 -Version 0.1.0 -Compiler 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+```
+
+The build produces `dist\PromptSpider-Setup.exe` and bundles Python and the
+browser driver. Microsoft Edge itself must already be installed on the laptop.
+For managed laptops, sign and distribute the installer through your approved
+software channel. The developer build is unsigned.
+
 ## Why this exists
 
 There is no local file and no accessible API for M365 Copilot prompts. The Graph
